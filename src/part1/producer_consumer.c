@@ -116,4 +116,3 @@ int quota(int id, int nb_thread) {
     }
     return thread_quota;
 }
-
