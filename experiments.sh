@@ -18,6 +18,7 @@ make test
  
 echo "=== Graphiques (partie 1) ==="
 (cd src/graphes && python3 generate_plot.py)
+
+make clean
  
 echo "Terminé."
- 

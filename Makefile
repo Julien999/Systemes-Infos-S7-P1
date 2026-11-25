@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -Wall -Wextra -pthread
+CFLAGS  = -Wall -Wextra -pthread -O0
 
 # --- Part 1 ---
 PART1_DIR   = src/part1

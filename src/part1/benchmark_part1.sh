@@ -2,8 +2,6 @@
 cd "$(dirname "$0")" || exit 1
  
 MAKEFILE_DIR="../.."
-THREADS_LIST="2 4 8 16 32"
-NB_RUNS=5
 TEMP="current_mesure.txt"
  
 PHILOSOPHES_CSV="philosophes.csv"
@@ -17,7 +15,9 @@ fi
  
 # Fichiers de sortie
 header="threads"
-for i in $(seq 1 $NB_RUNS); do header="$header,run$i"; done
+for i in {1..5}; do
+	header="$header,run$i";
+done
 for f in $PHILOSOPHES_CSV $PRODCONS_CSV $READWRITE_CSV; do
 	echo "$header" > "$f"
 done
@@ -25,17 +25,17 @@ done
 measure() {
 	local csv=$1
 	local total=$2
-	shift 2
+	shift 2 # Ignore les deux premiers paramètres donnés à la fonction (le csv et le total de threads)
  
 	local line="$total"
-	for iter in $(seq 1 $NB_RUNS); do
-		/usr/bin/time -f %e -o "$TEMP" "$@" > /dev/null
+	for iter in {1..5}; do
+		{ /usr/bin/time -f %e -o "$TEMP" "$@" ;} > /dev/null
 		line="$line,$(tr -d '\n' < $TEMP)"
 	done
 	echo "$line" >> "$csv"
 }
  
-for total in $THREADS_LIST; do
+for total in 2 4 8 16 32; do
 	half=$((total / 2))
 	echo "Threads totaux : $total"
  
@@ -48,4 +48,3 @@ for total in $THREADS_LIST; do
 done
  
 rm -f $TEMP
- 
